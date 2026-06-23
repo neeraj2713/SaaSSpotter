@@ -1,4 +1,4 @@
-# PainPoint.io Backend
+# SaaSSpotter Backend
 
 Serverless FastAPI backend that scrapes the web for business pain points via Firecrawl, filters noise with Gemini, and generates Micro-SaaS ideas.
 
