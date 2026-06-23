@@ -1,0 +1,59 @@
+{
+  "Comment": "PainPoint.io pipeline: scrape Reddit then process posts in parallel",
+  "StartAt": "Scrape",
+  "States": {
+    "Scrape": {
+      "Type": "Task",
+      "Resource": "${scrape_lambda_arn}",
+      "Retry": [
+        {
+          "ErrorEquals": ["Lambda.ServiceException", "Lambda.AWSLambdaException", "Lambda.SdkClientException"],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 2,
+          "BackoffRate": 2.0
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "ScrapeFailed",
+          "ResultPath": "$.error"
+        }
+      ],
+      "Next": "ProcessPosts"
+    },
+    "ProcessPosts": {
+      "Type": "Map",
+      "ItemsPath": "$.raw_post_ids",
+      "ItemSelector": {
+        "raw_post_id.$": "$$.Map.Item.Value"
+      },
+      "MaxConcurrency": 10,
+      "ToleratedFailurePercentage": 20,
+      "Iterator": {
+        "StartAt": "ProcessPost",
+        "States": {
+          "ProcessPost": {
+            "Type": "Task",
+            "Resource": "${process_lambda_arn}",
+            "Retry": [
+              {
+                "ErrorEquals": ["Lambda.ServiceException", "Lambda.AWSLambdaException", "Lambda.SdkClientException"],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 2,
+                "BackoffRate": 2.0
+              }
+            ],
+            "End": true
+          }
+        }
+      },
+      "End": true
+    },
+    "ScrapeFailed": {
+      "Type": "Fail",
+      "Error": "ScrapeFailed",
+      "Cause": "Reddit scrape stage failed after retries"
+    }
+  }
+}
