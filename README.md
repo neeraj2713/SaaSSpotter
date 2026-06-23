@@ -1,6 +1,6 @@
 # PainPoint.io Backend
 
-Serverless FastAPI backend that scrapes Reddit for business pain points, filters noise with Gemini, and generates Micro-SaaS ideas.
+Serverless FastAPI backend that scrapes the web for business pain points via Firecrawl, filters noise with Gemini, and generates Micro-SaaS ideas.
 
 ## Stack
 
@@ -9,7 +9,7 @@ Serverless FastAPI backend that scrapes Reddit for business pain points, filters
 - **Schedule:** EventBridge daily cron
 - **Database:** MongoDB Atlas (pymongo)
 - **AI:** Google Gemini
-- **Scraping:** praw (Reddit)
+- **Scraping:** Firecrawl (web search + scrape)
 
 ## Quick Start (Local)
 
@@ -57,8 +57,7 @@ Create `infra/terraform/terraform.tfvars`:
 ```hcl
 mongodb_uri          = "mongodb+srv://..."
 gemini_api_key       = "..."
-reddit_client_id     = "..."
-reddit_client_secret = "..."
+firecrawl_api_key    = "..."
 admin_api_key        = "your-secret-key"
 ```
 

@@ -38,7 +38,7 @@ class PipelineService:
 
         Returns IDs of posts that still need AI processing.
         """
-        posts = self._scraper.scrape_subreddits()
+        posts = self._scraper.scrape_web()
         inserted = self._raw_posts.upsert_many(posts)
         unprocessed = self._raw_posts.find_unprocessed()
         ids = [p.id for p in unprocessed]

@@ -22,14 +22,12 @@ class Settings(BaseSettings):
     gemini_api_key: str = Field(default="")
     gemini_model: str = Field(default="gemini-2.0-flash")
 
-    # Reddit
-    reddit_client_id: str = Field(default="")
-    reddit_client_secret: str = Field(default="")
-    reddit_user_agent: str = Field(default="PainPoint.io/1.0")
+    # Firecrawl
+    firecrawl_api_key: str = Field(default="")
 
     # Scraping
-    scrape_subreddits: str = Field(
-        default="Entrepreneur,SaaS,startups,smallbusiness"
+    scrape_targets: str = Field(
+        default="reddit.com/r/Entrepreneur,reddit.com/r/SaaS,reddit.com/r/startups,reddit.com/r/smallbusiness"
     )
     scrape_keywords: str = Field(
         default="frustrated,struggling,wish there was,problem with,how do you handle,any tool for"
@@ -60,8 +58,8 @@ class Settings(BaseSettings):
         return bool(os.environ.get("AWS_LAMBDA_FUNCTION_NAME"))
 
     @property
-    def subreddit_list(self) -> List[str]:
-        return [s.strip() for s in self.scrape_subreddits.split(",") if s.strip()]
+    def scrape_target_list(self) -> List[str]:
+        return [t.strip() for t in self.scrape_targets.split(",") if t.strip()]
 
     @property
     def keyword_list(self) -> List[str]:
@@ -78,10 +76,8 @@ class Settings(BaseSettings):
             "MONGODB_DB_NAME": "mongodb_db_name",
             "GEMINI_API_KEY": "gemini_api_key",
             "GEMINI_MODEL": "gemini_model",
-            "REDDIT_CLIENT_ID": "reddit_client_id",
-            "REDDIT_CLIENT_SECRET": "reddit_client_secret",
-            "REDDIT_USER_AGENT": "reddit_user_agent",
-            "SCRAPE_SUBREDDITS": "scrape_subreddits",
+            "FIRECRAWL_API_KEY": "firecrawl_api_key",
+            "SCRAPE_TARGETS": "scrape_targets",
             "SCRAPE_KEYWORDS": "scrape_keywords",
             "SCRAPE_POST_LIMIT": "scrape_post_limit",
             "CORS_ORIGINS": "cors_origins",

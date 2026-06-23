@@ -8,14 +8,12 @@ locals {
     MONGODB_DB_NAME                 = "painpoint"
     GEMINI_API_KEY                  = var.gemini_api_key
     GEMINI_MODEL                    = "gemini-2.0-flash"
-    REDDIT_CLIENT_ID                = var.reddit_client_id
-    REDDIT_CLIENT_SECRET            = var.reddit_client_secret
-    REDDIT_USER_AGENT               = var.reddit_user_agent
+    FIRECRAWL_API_KEY               = var.firecrawl_api_key
     CORS_ORIGINS                    = var.cors_origins
     ADMIN_API_KEY                   = var.admin_api_key
     AWS_SECRETS_MANAGER_SECRET_NAME = aws_secretsmanager_secret.app.name
     STEP_FUNCTIONS_STATE_MACHINE_ARN = local.state_machine_arn
-    SCRAPE_SUBREDDITS               = "Entrepreneur,SaaS,startups,smallbusiness"
+    SCRAPE_TARGETS                  = "reddit.com/r/Entrepreneur,reddit.com/r/SaaS,reddit.com/r/startups,reddit.com/r/smallbusiness"
     SCRAPE_KEYWORDS                 = "frustrated,struggling,wish there was,problem with,how do you handle,any tool for"
     SCRAPE_POST_LIMIT               = "50"
     LOCAL_PIPELINE_MODE             = "false"

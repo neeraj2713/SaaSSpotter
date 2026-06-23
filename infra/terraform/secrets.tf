@@ -10,9 +10,7 @@ resource "aws_secretsmanager_secret_version" "app" {
     MONGODB_DB_NAME                  = "painpoint"
     GEMINI_API_KEY                   = var.gemini_api_key
     GEMINI_MODEL                     = "gemini-2.0-flash"
-    REDDIT_CLIENT_ID                 = var.reddit_client_id
-    REDDIT_CLIENT_SECRET             = var.reddit_client_secret
-    REDDIT_USER_AGENT                = var.reddit_user_agent
+    FIRECRAWL_API_KEY                = var.firecrawl_api_key
     CORS_ORIGINS                     = var.cors_origins
     ADMIN_API_KEY                    = var.admin_api_key
     STEP_FUNCTIONS_STATE_MACHINE_ARN = "arn:aws:states:${var.aws_region}:${data.aws_caller_identity.current.account_id}:stateMachine:${var.project_name}-${var.environment}-pipeline"

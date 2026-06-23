@@ -9,7 +9,7 @@ from app.models.common import MongoModel, utc_now
 
 
 class RawPostBase(MongoModel):
-    source: str = "reddit"
+    source: str = "firecrawl"
     source_id: str
     text: str
     url: str

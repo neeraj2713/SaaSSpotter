@@ -28,22 +28,10 @@ variable "gemini_api_key" {
   sensitive   = true
 }
 
-variable "reddit_client_id" {
-  description = "Reddit API client ID"
+variable "firecrawl_api_key" {
+  description = "Firecrawl API key"
   type        = string
   sensitive   = true
-}
-
-variable "reddit_client_secret" {
-  description = "Reddit API client secret"
-  type        = string
-  sensitive   = true
-}
-
-variable "reddit_user_agent" {
-  description = "Reddit API user agent"
-  type        = string
-  default     = "PainPoint.io/1.0"
 }
 
 variable "admin_api_key" {

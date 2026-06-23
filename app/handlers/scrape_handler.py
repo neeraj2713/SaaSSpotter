@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 
 def handler(event, context):
     """
-    Scrape Reddit and return unprocessed post IDs for Map fan-out.
+    Scrape the web via Firecrawl and return unprocessed post IDs for Map fan-out.
 
     Step Functions expects: { "raw_post_ids": [...], "scraped_count": N }
     """

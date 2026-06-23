@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 FILTER_PROMPT = """You are an expert at identifying genuine business and developer pain points from online posts.
 
-Analyze the following Reddit post from r/{subreddit} and determine if it describes a REAL business pain point that could inspire a Micro-SaaS product.
+Analyze the following web post from {subreddit} and determine if it describes a REAL business pain point that could inspire a Micro-SaaS product.
 
 A valid pain point:
 - Describes a specific problem, frustration, or unmet need
@@ -31,7 +31,7 @@ Respond with JSON only:
 
 GENERATE_PROMPT = """You are a Micro-SaaS idea generator. Based on this pain point post, extract the core problem and generate actionable product ideas.
 
-Post from r/{subreddit}:
+Post from {subreddit}:
 {text}
 
 Respond with JSON only:
