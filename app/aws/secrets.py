@@ -47,8 +47,18 @@ def load_secrets() -> dict[str, str]:
     return _secrets_cache
 
 
+def clear_secrets_cache() -> None:
+    global _secrets_cache
+    _secrets_cache = None
+
+
 def init_settings_from_secrets() -> None:
     """Load secrets and merge into the global settings object."""
+    if settings.skip_aws_secrets or settings.local_pipeline_mode:
+        logger.info("Skipping AWS Secrets Manager (local development mode)")
+        return
+    if not settings.aws_secrets_manager_secret_name:
+        return
     secrets = load_secrets()
     if secrets:
         settings.apply_secrets(secrets)

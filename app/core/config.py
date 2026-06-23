@@ -1,6 +1,5 @@
 """Application configuration via environment variables and Secrets Manager."""
 
-from functools import lru_cache
 from typing import List
 
 from pydantic import Field, field_validator
@@ -40,9 +39,10 @@ class Settings(BaseSettings):
 
     # Local dev
     local_pipeline_mode: bool = Field(default=False)
+    skip_aws_secrets: bool = Field(default=False)
 
     # AWS
-    aws_region: str = Field(default="us-east-1")
+    aws_region: str = Field(default="ap-south-1")
     aws_secrets_manager_secret_name: str = Field(default="")
     step_functions_state_machine_arn: str = Field(default="")
 
@@ -94,9 +94,16 @@ class Settings(BaseSettings):
                 setattr(self, attr, value)
 
 
-@lru_cache
+settings = Settings()
+
+
 def get_settings() -> Settings:
-    return Settings()
+    return settings
 
 
-settings = get_settings()
+def refresh_settings_from_env() -> Settings:
+    """Re-read .env into the shared settings instance (in-place)."""
+    fresh = Settings()
+    for name in Settings.model_fields:
+        setattr(settings, name, getattr(fresh, name))
+    return settings

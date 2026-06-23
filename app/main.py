@@ -7,8 +7,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v1.router import router as v1_router
-from app.aws.secrets import init_settings_from_secrets
-from app.core.config import settings
+from app.aws.secrets import clear_secrets_cache, init_settings_from_secrets
+from app.core.config import refresh_settings_from_env, settings
 from app.core.exceptions import register_exception_handlers
 from app.db.mongodb import close_client, ensure_indexes
 
@@ -17,7 +17,15 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    close_client()
+    clear_secrets_cache()
+    refresh_settings_from_env()
     init_settings_from_secrets()
+    logger.info(
+        "Pipeline mode: %s",
+        "local" if settings.local_pipeline_mode else "step_functions",
+    )
+    logger.info("Using MongoDB database: %s", settings.mongodb_db_name)
     try:
         ensure_indexes()
     except Exception:

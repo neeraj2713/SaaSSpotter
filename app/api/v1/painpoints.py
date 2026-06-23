@@ -30,6 +30,8 @@ def list_pain_points(
         )
     except PyMongoError as exc:
         raise ServiceUnavailableError("Database unavailable") from exc
+    except Exception as exc:
+        raise ServiceUnavailableError("Database unavailable") from exc
 
     return PaginatedResponse(
         items=items,

@@ -7,7 +7,7 @@ resource "aws_secretsmanager_secret_version" "app" {
   secret_id = aws_secretsmanager_secret.app.id
   secret_string = jsonencode({
     MONGODB_URI                      = var.mongodb_uri
-    MONGODB_DB_NAME                  = "painpoint"
+    MONGODB_DB_NAME                  = "dev"
     GEMINI_API_KEY                   = var.gemini_api_key
     GEMINI_MODEL                     = "gemini-2.0-flash"
     FIRECRAWL_API_KEY                = var.firecrawl_api_key

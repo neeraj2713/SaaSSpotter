@@ -5,7 +5,7 @@ locals {
 
   lambda_env = {
     MONGODB_URI                     = var.mongodb_uri
-    MONGODB_DB_NAME                 = "painpoint"
+    MONGODB_DB_NAME                 = "dev"
     GEMINI_API_KEY                  = var.gemini_api_key
     GEMINI_MODEL                    = "gemini-2.0-flash"
     FIRECRAWL_API_KEY               = var.firecrawl_api_key
@@ -59,8 +59,6 @@ resource "aws_lambda_function" "scrape" {
   environment {
     variables = local.lambda_env
   }
-
-  reserved_concurrent_executions = 1
 
   depends_on = [aws_cloudwatch_log_group.scrape_lambda]
 }
