@@ -1,0 +1,75 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - "app/**"
+      - "infra/**"
+      - "scripts/build_lambda.sh"
+      - "requirements-lambda.txt"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-aws-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: ap-south-1
+  TF_VAR_aws_region: ap-south-1
+  TF_VAR_project_name: SaaSSpotter
+  TF_VAR_environment: dev
+
+jobs:
+  deploy:
+    name: Build & Terraform Apply
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install build tools
+        run: pip install --upgrade pip
+
+      - name: Build Lambda packages
+        run: |
+          chmod +x scripts/build_lambda.sh
+          ./scripts/build_lambda.sh
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+
+      - name: Terraform Init
+        working-directory: infra/terraform
+        run: terraform init -input=false
+
+      - name: Terraform Apply
+        working-directory: infra/terraform
+        env:
+          TF_VAR_mongodb_uri: ${{ secrets.MONGODB_URI }}
+          TF_VAR_gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
+          TF_VAR_firecrawl_api_key: ${{ secrets.FIRECRAWL_API_KEY }}
+          TF_VAR_admin_api_key: ${{ secrets.ADMIN_API_KEY }}
+          TF_VAR_cors_origins: ${{ secrets.CORS_ORIGINS != '' && secrets.CORS_ORIGINS || 'http://localhost:3000' }}
+        run: terraform apply -auto-approve -input=false
+
+      - name: Print API URL
+        working-directory: infra/terraform
+        run: terraform output api_gateway_url

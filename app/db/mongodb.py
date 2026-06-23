@@ -2,6 +2,7 @@
 
 import logging
 
+import certifi
 from pymongo import MongoClient
 from pymongo.database import Database
 
@@ -20,8 +21,9 @@ def get_client() -> MongoClient:
             maxPoolSize=1,
             serverSelectionTimeoutMS=10000,
             connectTimeoutMS=10000,
+            tlsCAFile=certifi.where(),
         )
-        logger.info("MongoDB client initialized")
+        logger.info("MongoDB client initialized for db=%s", settings.mongodb_db_name)
     return _client
 
 

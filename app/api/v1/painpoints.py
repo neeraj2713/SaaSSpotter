@@ -1,5 +1,6 @@
 """Pain points feed endpoints."""
 
+import logging
 from typing import Optional
 
 from fastapi import APIRouter, Depends, Query
@@ -10,6 +11,8 @@ from app.core.exceptions import ServiceUnavailableError
 from app.db.repositories.pain_points import PainPointRepository
 from app.models.common import PaginatedResponse
 from app.models.pain_point import PainPointRead
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/painpoints", tags=["painpoints"])
 
@@ -29,8 +32,10 @@ def list_pain_points(
             industry_tag=industry_tag,
         )
     except PyMongoError as exc:
+        logger.exception("MongoDB error listing pain points")
         raise ServiceUnavailableError("Database unavailable") from exc
     except Exception as exc:
+        logger.exception("Unexpected error listing pain points")
         raise ServiceUnavailableError("Database unavailable") from exc
 
     return PaginatedResponse(
