@@ -59,6 +59,8 @@ mongodb_uri          = "mongodb+srv://..."
 gemini_api_key       = "..."
 firecrawl_api_key    = "..."
 admin_api_key        = "your-secret-key"
+cors_origins         = "http://localhost:3000,https://saas-spotter-ui.vercel.app"
+clerk_issuer         = "https://your-app.clerk.accounts.dev"
 ```
 
 ### 3. Apply infrastructure
