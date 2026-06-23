@@ -70,6 +70,3 @@ jobs:
           TF_VAR_cors_origins: ${{ secrets.CORS_ORIGINS != '' && secrets.CORS_ORIGINS || 'http://localhost:3000' }}
         run: terraform apply -auto-approve -input=false
 
-      - name: Print API URL
-        working-directory: infra/terraform
-        run: terraform output api_gateway_url
