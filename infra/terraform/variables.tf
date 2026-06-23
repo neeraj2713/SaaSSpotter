@@ -47,6 +47,13 @@ variable "cors_origins" {
   default     = "http://localhost:3000"
 }
 
+variable "clerk_issuer" {
+  description = "Clerk JWT issuer URL (e.g. https://your-app.clerk.accounts.dev)"
+  type        = string
+  sensitive   = true
+  default     = ""
+}
+
 variable "lambda_zip_path" {
   description = "Path to the Lambda deployment package zip"
   type        = string

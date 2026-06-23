@@ -13,6 +13,7 @@ resource "aws_secretsmanager_secret_version" "app" {
     FIRECRAWL_API_KEY                = var.firecrawl_api_key
     CORS_ORIGINS                     = var.cors_origins
     ADMIN_API_KEY                    = var.admin_api_key
+    CLERK_ISSUER                     = var.clerk_issuer
     STEP_FUNCTIONS_STATE_MACHINE_ARN = "arn:aws:states:${var.aws_region}:${data.aws_caller_identity.current.account_id}:stateMachine:${var.project_name}-${var.environment}-pipeline"
   })
 }

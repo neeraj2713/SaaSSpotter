@@ -68,5 +68,6 @@ jobs:
           TF_VAR_firecrawl_api_key: ${{ secrets.FIRECRAWL_API_KEY }}
           TF_VAR_admin_api_key: ${{ secrets.ADMIN_API_KEY }}
           TF_VAR_cors_origins: ${{ secrets.CORS_ORIGINS != '' && secrets.CORS_ORIGINS || 'http://localhost:3000,https://saa-s-spotter-ui.vercel.app' }}
+          TF_VAR_clerk_issuer: ${{ secrets.CLERK_ISSUER }}
         run: terraform apply -auto-approve -input=false
 

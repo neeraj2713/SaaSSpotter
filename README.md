@@ -78,7 +78,7 @@ terraform apply
 
 On push to `main` or `dev`, the workflow in `.github/workflows/deploy.yml` builds Lambda zips and runs `terraform apply`.
 
-**One-time setup:** add GitHub Actions secrets (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `MONGODB_URI`, `GEMINI_API_KEY`, `FIRECRAWL_API_KEY`, `ADMIN_API_KEY`). See [`.github/DEPLOY_SETUP.md`](.github/DEPLOY_SETUP.md) for details and pricing (free tier: 2000 min/mo private, unlimited public repos).
+**One-time setup:** add GitHub Actions secrets (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `MONGODB_URI`, `GEMINI_API_KEY`, `FIRECRAWL_API_KEY`, `ADMIN_API_KEY`, `CLERK_ISSUER`). `CLERK_ISSUER` is your Clerk instance URL (e.g. `https://talented-rhino-3.clerk.accounts.dev`) for saved ideas and alerts. See [`.github/DEPLOY_SETUP.md`](.github/DEPLOY_SETUP.md) for details and pricing (free tier: 2000 min/mo private, unlimited public repos).
 
 **Manual deploy from your machine** (same as CI):
 
