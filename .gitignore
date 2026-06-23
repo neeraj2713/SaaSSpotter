@@ -13,7 +13,6 @@ build/
 .terraform/
 *.tfstate
 *.tfstate.*
-.terraform.lock.hcl
 terraform.tfvars
 lambda_layer/
 lambda_packages/
