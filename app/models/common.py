@@ -1,7 +1,7 @@
 """Shared Pydantic utilities."""
 
 from datetime import datetime
-from typing import Generic, List, TypeVar
+from typing import Generic, List, Literal, TypeVar
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -53,6 +53,16 @@ class IdeaResult(BaseModel):
     saas_idea_2: str
     demand_score: int = Field(ge=1, le=10)
     industry_tag: str
+    industry_tags: List[str] = Field(default_factory=list)
+    cluster_slug: str = ""
+    cluster_label: str = ""
+    target_customer: str = ""
+    competition_level: Literal["low", "medium", "high"] = "medium"
+    mvp_complexity: Literal["weekend", "month", "quarter"] = "month"
+    monetization_hint: str = ""
+    evidence_quotes: List[str] = Field(default_factory=list)
+    demand_score_rationale: List[str] = Field(default_factory=list)
+    engagement_signal: str = ""
 
 
 def utc_now() -> datetime:

@@ -45,4 +45,16 @@ def ensure_indexes() -> None:
     db.raw_posts.create_index("processed_at")
     db.pain_points.create_index([("created_at", -1)])
     db.pain_points.create_index("original_post_id", unique=True)
+    db.pain_points.create_index([("demand_score", -1)])
+    db.pain_points.create_index(
+        [("core_problem", "text"), ("saas_idea_1", "text"), ("saas_idea_2", "text")],
+        name="pain_points_text",
+    )
+    db.pain_point_scores.create_index([("pain_point_id", 1), ("recorded_at", -1)])
+    db.pain_points.create_index("industry_tag")
+    db.pain_points.create_index("cluster_slug")
+    db.pain_points.create_index("industry_tags")
+    db.user_saved_ideas.create_index([("user_id", 1), ("pain_point_id", 1)], unique=True)
+    db.user_alert_watches.create_index("user_id")
+    db.user_visits.create_index("user_id", unique=True)
     logger.info("MongoDB indexes ensured")

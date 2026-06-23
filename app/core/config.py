@@ -36,6 +36,7 @@ class Settings(BaseSettings):
     # API
     cors_origins: str = Field(default="http://localhost:3000")
     admin_api_key: str = Field(default="")
+    clerk_issuer: str = Field(default="")
 
     # Local dev
     local_pipeline_mode: bool = Field(default=False)
@@ -82,6 +83,7 @@ class Settings(BaseSettings):
             "SCRAPE_POST_LIMIT": "scrape_post_limit",
             "CORS_ORIGINS": "cors_origins",
             "ADMIN_API_KEY": "admin_api_key",
+            "CLERK_ISSUER": "clerk_issuer",
             "STEP_FUNCTIONS_STATE_MACHINE_ARN": "step_functions_state_machine_arn",
         }
         for env_key, attr in field_map.items():

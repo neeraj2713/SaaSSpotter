@@ -29,19 +29,33 @@ Post:
 Respond with JSON only:
 {{"is_valid": true/false, "confidence": 0.0-1.0, "reason": "brief explanation"}}"""
 
-GENERATE_PROMPT = """You are a Micro-SaaS idea generator. Based on this pain point post, extract the core problem and generate actionable product ideas.
+from app.constants.industry_taxonomy import CANONICAL_INDUSTRY_TAGS
 
-Post from {subreddit}:
-{text}
+_TAGS_LIST = ", ".join(CANONICAL_INDUSTRY_TAGS)
+
+GENERATE_PROMPT = f"""You are a Micro-SaaS idea generator. Based on this pain point post, extract the core problem and generate actionable product ideas.
+
+Post from {{subreddit}}:
+{{text}}
 
 Respond with JSON only:
-{{
+{{{{
   "core_problem": "one sentence summary of the core problem",
   "saas_idea_1": "first actionable Micro-SaaS idea",
   "saas_idea_2": "second actionable Micro-SaaS idea",
   "demand_score": 1-10,
-  "industry_tag": "kebab-case industry tag e.g. developer-tools, marketing, hr"
-}}"""
+  "industry_tag": "ONE primary tag from this list only: {_TAGS_LIST}",
+  "industry_tags": ["up to 2 extra tags from the same list"],
+  "cluster_slug": "kebab-case theme slug e.g. invoice-payments",
+  "cluster_label": "short human label e.g. Invoice and payment chasing",
+  "target_customer": "who would buy this e.g. solo founders, HR teams",
+  "competition_level": "low|medium|high",
+  "mvp_complexity": "weekend|month|quarter",
+  "monetization_hint": "one-line pricing model hint e.g. $29/mo per seat",
+  "evidence_quotes": ["2-3 short verbatim quotes from the post proving the pain"],
+  "demand_score_rationale": ["3 bullets explaining the demand_score"],
+  "engagement_signal": "one line on urgency or engagement signals in the post"
+}}}}"""
 
 
 class AIService:
